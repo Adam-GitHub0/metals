@@ -1082,6 +1082,7 @@ class MetalsLspService(
       System.exit(0)
     }
   }
+ 
 
   override def didOpen(
       params: DidOpenTextDocumentParams
@@ -1091,6 +1092,12 @@ class MetalsLspService(
     // and we would lose the notion of the focused document
     focusedDocument.foreach(recentlyFocusedFiles.add)
     focusedDocument = Some(path)
+     /*if (true) {
+    findBuildTargetForTwirlFile(path).foreach { buildTarget =>
+      // Trigger compilation for the build target that includes the Twirl file
+      compilations.compileTarget(buildTarget)
+    }
+  }*/
     recentlyOpenedFiles.add(path)
 
     // Update md5 fingerprint from file contents on disk
@@ -1129,6 +1136,13 @@ class MetalsLspService(
         ()
       }
     } else {
+  //      if (path.isTwirlFilename) {
+  //    findBuildTargetForTwirlFile(path).foreach { buildTarget =>
+  //     // Trigger compilation for the build target that includes the Twirl file
+  //     compilations.compileTarget(buildTarget)
+  //   }
+    
+  // }
       buildServerPromise.future.flatMap { _ =>
         def load(): Future[Unit] = {
           val compileAndLoad =
@@ -1175,7 +1189,6 @@ class MetalsLspService(
         buildTargets
           .inverseSources(path)
           .foreach(focusedDocumentBuildTarget.set)
-
         // unpublish diagnostic for dependencies
         interactiveSemanticdbs.didFocus(path)
         // Don't trigger compilation on didFocus events under cascade compilation
@@ -2643,6 +2656,7 @@ class MetalsLspService(
       definitionOnly: Boolean = false,
   ): Future[DefinitionResult] = {
     val source = positionParams.getTextDocument.getUri.toAbsolutePath
+    ///////////////Adam
     if (source.isScalaFilename || source.isJavaFilename) {
       val semanticDBDoc =
         semanticdbs.textDocument(source).documentIncludingStale
