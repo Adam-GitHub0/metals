@@ -357,9 +357,8 @@ trait CommonMtagsEnrichments {
   implicit class XtensionStringDoc(doc: String) {
     def isScala: Boolean =
       doc.endsWith(".scala")
-    ////////////For Twirl 
     def isTwirl: Boolean =
-      doc.endsWith(".scala.txt")|| doc.endsWith(".scala.html")||doc.endsWith(".scala.xml")
+      doc.endsWith(".scala.txt")|| doc.endsWith(".scala.html")||doc.endsWith(".scala.xml")||doc.endsWith(".scala.csv")
     def isSbt: Boolean =
       doc.endsWith(".sbt")
     def isScalaScript: Boolean =

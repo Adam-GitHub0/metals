@@ -162,23 +162,6 @@ final class Compilations(
       .ignoreValue
   }
 
-// private def findBuildTargetForTwirl(path: AbsolutePath)(implicit ec: ExecutionContext): Future[Option[b.BuildTargetIdentifier]] = {
-//   val twirlDir = path.parent
-//   val srcMainDir = twirlDir.parent
-//   val scalaDir = srcMainDir.resolve("scala")
-  
-//   if (scalaDir.isDirectory) {
-//     val scalaFileOpt = scalaDir.list.find(_.isScalaOrJava)
-  
-//     scalaFileOpt match {
-//     case Some(scalaFile) => buildTargets.inverseSourcesBsp(scalaFile)
-//       case None => Future.successful(None)
-//     }
-//   } else {
-//     Future.successful(None)
-//   }
-// }
-
 private def expand(path: AbsolutePath): Future[Option[b.BuildTargetIdentifier]] = {
   val isCompilable = (path.isScalaOrJava || path.isSbt || path.isTwirlFilename) && !path.isDependencySource(workspace())
 
