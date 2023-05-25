@@ -357,6 +357,11 @@ trait CommonMtagsEnrichments {
   implicit class XtensionStringDoc(doc: String) {
     def isScala: Boolean =
       doc.endsWith(".scala")
+    def isTwirl: Boolean =
+      doc.endsWith(".scala.txt") ||
+        doc.endsWith(".scala.html") ||
+        doc.endsWith(".scala.xml") ||
+        doc.endsWith(".scala.csv")
     def isSbt: Boolean =
       doc.endsWith(".sbt")
     def isScalaScript: Boolean =
@@ -418,6 +423,7 @@ trait CommonMtagsEnrichments {
     def isScalaFilename: Boolean = filename.isScalaFilename
     def isJavaFilename: Boolean = filename.isJavaFilename
     def isScalaOrJavaFilename: Boolean = isScalaFilename || isJavaFilename
+    def isTwirlFilename: Boolean = filename.isTwirl
   }
 
   implicit class XtensionStream[A](stream: java.util.stream.Stream[A]) {
@@ -551,6 +557,10 @@ trait CommonMtagsEnrichments {
     def isScalaFilename: Boolean = {
       filename.isScalaFilename
     }
+    def isTwirlFilename: Boolean = {
+      filename.isTwirl
+    }
+
     def isScala: Boolean = {
       toLanguage == Language.SCALA && isFile
     }

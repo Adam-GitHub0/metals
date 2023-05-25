@@ -1129,6 +1129,7 @@ class MetalsLspService(
         ()
       }
     } else {
+
       buildServerPromise.future.flatMap { _ =>
         def load(): Future[Unit] = {
           val compileAndLoad =
@@ -1175,7 +1176,6 @@ class MetalsLspService(
         buildTargets
           .inverseSources(path)
           .foreach(focusedDocumentBuildTarget.set)
-
         // unpublish diagnostic for dependencies
         interactiveSemanticdbs.didFocus(path)
         // Don't trigger compilation on didFocus events under cascade compilation
