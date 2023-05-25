@@ -162,25 +162,29 @@ final class Compilations(
       .ignoreValue
   }
 
-private def expand(path: AbsolutePath): Future[Option[b.BuildTargetIdentifier]] = {
-  val isCompilable = (path.isScalaOrJava || path.isSbt || path.isTwirlFilename) && !path.isDependencySource(workspace())
+  private def expand(
+      path: AbsolutePath
+  ): Future[Option[b.BuildTargetIdentifier]] = {
+    val isCompilable =
+      (path.isScalaOrJava || path.isSbt || path.isTwirlFilename) && !path
+        .isDependencySource(workspace())
 
-  if (isCompilable) {
-    val targetOpt = if (path.isTwirlFilename) {
-      Future.successful(buildTargets.findBuildTargetForTwirlFile(path))
-    } else {
-      buildTargets.inverseSourcesBsp(path)
-    }
+    if (isCompilable) {
+      val targetOpt = if (path.isTwirlFilename) {
+        Future.successful(buildTargets.findBuildTargetForTwirlFile(path))
+      } else {
+        buildTargets.inverseSourcesBsp(path)
+      }
 
-    targetOpt.foreach {
-      case tgts if tgts.isEmpty => scribe.warn(s"no build target for: $path")
-      case _ =>
-    }
+      targetOpt.foreach {
+        case tgts if tgts.isEmpty => scribe.warn(s"no build target for: $path")
+        case _ =>
+      }
 
-    targetOpt
-  } else
-    Future.successful(None)
-}
+      targetOpt
+    } else
+      Future.successful(None)
+  }
 
   def expand(paths: Seq[AbsolutePath]): Future[Seq[b.BuildTargetIdentifier]] = {
     val expansions = paths.map(expand)

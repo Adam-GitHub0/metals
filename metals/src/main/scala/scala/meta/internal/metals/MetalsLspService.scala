@@ -1082,7 +1082,6 @@ class MetalsLspService(
       System.exit(0)
     }
   }
- 
 
   override def didOpen(
       params: DidOpenTextDocumentParams
@@ -1130,7 +1129,7 @@ class MetalsLspService(
         ()
       }
     } else {
-      
+
       buildServerPromise.future.flatMap { _ =>
         def load(): Future[Unit] = {
           val compileAndLoad =

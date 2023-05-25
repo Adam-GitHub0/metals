@@ -240,7 +240,9 @@ final class BuildTargets private (
     }
   }
 
-  def findBuildTargetForTwirlFile(twirlFile: AbsolutePath): Option[BuildTargetIdentifier] = {
+  def findBuildTargetForTwirlFile(
+      twirlFile: AbsolutePath
+  ): Option[BuildTargetIdentifier] = {
     data.iterator
       .flatMap(data => data.allScala)
       .filter { target =>
